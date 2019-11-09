@@ -1,0 +1,30 @@
+{
+  "name": "graphql-for-hue",
+  "version": "0.1.0",
+  "description": "A GraphQL server for consuming the Hue API",
+  "main": "dist/index.ts",
+  "author": "antoinechalifour <antoine.chalifour@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "concurrently -k  \"yarn watch-ts\" \"yarn watch-node\"",
+    "watch-ts": "tsc --watch",
+    "watch-node": "nodemon dist/index.js",
+    "lint": "eslint \"src/**/*.{js,ts}\" --quiet --fix"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
+    "@types/node": "^12.12.7",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "concurrently": "^5.0.0",
+    "eslint": "^6.6.0",
+    "nodemon": "^1.19.4",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^8.1.0"
+  }
+}
