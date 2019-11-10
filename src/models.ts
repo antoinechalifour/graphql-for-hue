@@ -5,10 +5,10 @@ export interface Light {
     bri: number;
     hue: number;
     sat: number;
-    effect: string;
+    effect: "none" | "colorloop";
     xy: number[];
     ct: number;
-    alert: string;
+    alert: "none" | "select" | "lselect";
     colormode: string;
     mode: string;
     reachable: boolean;

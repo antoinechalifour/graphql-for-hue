@@ -15,10 +15,21 @@ export interface GraphqlContext {
 }
 
 const typeDefs = gql`
+  enum LightAlert {
+    NONE
+    SELECT
+    LONG_SELECT
+  }
+
+  enum LightEffect {
+    NONE
+    COLOR_LOOP
+  }
+
   type LightState {
     on: Boolean!
     bri: Int!
-    alert: String!
+    alert: LightAlert!
 
     "Null for Dimmable Lights"
     hue: Int
@@ -27,7 +38,7 @@ const typeDefs = gql`
     sat: Int
 
     "Null for Dimmable Lights"
-    effect: String
+    effect: LightEffect
 
     xy: [Float!]
 
@@ -100,10 +111,13 @@ const typeDefs = gql`
     config: LightConfig!
     uniqueid: String!
     swversion: String!
+    swconfigid: String!
+    productid: String!
   }
 
   type Query {
     lights: [Light!]!
+    light(id: String!): Light!
   }
 `;
 
@@ -115,7 +129,23 @@ export function createApp({ userName }: AppOptions) {
       Query: {
         lights: (_obj: undefined, _args: {}, { services }: GraphqlContext) => {
           return services.lights.fetchAllLights();
+        },
+        light: (
+          _obj: undefined,
+          { id }: { id: string },
+          { services }: GraphqlContext
+        ) => {
+          return services.lights.fetchLight(id);
         }
+      },
+      LightAlert: {
+        NONE: "none",
+        SELECT: "select",
+        LONG_SELECT: "lselect"
+      },
+      LightEffect: {
+        NONE: "none",
+        COLOR_LOOP: "colorloop"
       }
     },
     context: (): GraphqlContext => {

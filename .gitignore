@@ -41,3 +41,4 @@ dist/**/*
 yarn.lock
 
 .g4h-cache
+sample_doc
