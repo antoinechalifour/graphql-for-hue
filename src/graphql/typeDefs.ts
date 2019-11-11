@@ -12,6 +12,49 @@ export const typeDefs = gql`
     COLOR_LOOP
   }
 
+  enum GroupClass {
+    LIVING_ROOM
+    KITCHEN
+    DINING
+    BEDROOM
+    KIDS_BEDROOM
+    BATHROOM
+    NURSERY
+    RECREATION
+    OFFICE
+    GYM
+    HALLWAY
+    TOILET
+    FRONT_DOOR
+    GARAGE
+    TERRACE
+    GARDEN
+    DRIVEWAY
+    CARPORT
+    OTHER
+    HOME
+    DOWNSTAIRS
+    UPSTAIRS
+    TOP_FLOOR
+    ATTIC
+    GUEST_ROOM
+    STAIRCASE
+    LOUNGE
+    MAN_CAVE
+    COMPUTER
+    STUDIO
+    MUSIC
+    TV
+    READING
+    CLOSET
+    STORAGE
+    LAUNDRY_ROOM
+    BALCONY
+    PORCH
+    BARBECUE
+    POOL
+  }
+
   type LightState {
     on: Boolean!
     bri: Int!
@@ -114,8 +157,7 @@ export const typeDefs = gql`
     type: String!
     state: GroupState!
     recycle: Boolean!
-    class: String!
-    # TODO: rename this type
+    class: GroupClass!
     action: LightState!
     # TODO: more fields ??
   }
@@ -165,5 +207,7 @@ export const typeDefs = gql`
     renameGroup(id: String!, name: String!): UpdateGroupResponse!
 
     setGroupLights(id: String!, lightIds: [String!]!): UpdateGroupResponse!
+
+    setGroupClass(id: String!, class: GroupClass!): UpdateGroupResponse!
   }
 `;
