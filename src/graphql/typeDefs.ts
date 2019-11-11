@@ -127,11 +127,6 @@ export const typeDefs = gql`
     group(id: String!): Group!
   }
 
-  type UpdateLightStateResponse {
-    success: Boolean!
-    light: Light!
-  }
-
   input UpdateLightState {
     on: Boolean
     bri: Int
@@ -149,17 +144,24 @@ export const typeDefs = gql`
     xy_inc: [Float!]
   }
 
-  type RenameLightResponse {
+  type UpdateLightResponse {
     success: Boolean!
     light: Light!
+  }
+
+  type UpdateGroupResponse {
+    success: Boolean!
+    group: Group!
   }
 
   type Mutation {
     updateLightState(
       id: String!
       state: UpdateLightState!
-    ): UpdateLightStateResponse!
+    ): UpdateLightResponse!
 
-    renameLight(id: String!, name: String!): RenameLightResponse!
+    renameLight(id: String!, name: String!): UpdateLightResponse!
+
+    renameGroup(id: String!, name: String!): UpdateGroupResponse!
   }
 `;

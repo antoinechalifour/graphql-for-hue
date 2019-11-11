@@ -71,6 +71,48 @@ export interface LightStateUpdate {
   xy_inc?: number[];
 }
 
+export type GroupClass =
+  | "Living room"
+  | "Kitchen"
+  | "Dining"
+  | "Bedroom"
+  | "Kids bedroom"
+  | "Bathroom"
+  | "Nursery"
+  | "Recreation"
+  | "Office"
+  | "Gym"
+  | "Hallway"
+  | "Toilet"
+  | "Front door"
+  | "Garage"
+  | "Terrace"
+  | "Garden"
+  | "Driveway"
+  | "Carport"
+  | "Other"
+  | "Home"
+  | "Downstairs"
+  | "Upstairs"
+  | "Top floor"
+  | "Attic"
+  | "Guest room"
+  | "Staircase"
+  | "Lounge"
+  | "Man cave"
+  | "Computer"
+  | "Studio"
+  | "Music"
+  | "TV"
+  | "Reading"
+  | "Closet"
+  | "Storage"
+  | "Laundry room"
+  | "Balcony"
+  | "Porch"
+  | "Barbecue"
+  | "Pool";
+
 export interface Group {
   id: string;
   name: string;
@@ -82,7 +124,7 @@ export interface Group {
     any_on: boolean;
   };
   recycle: boolean;
-  class: string;
+  class: GroupClass;
   action: {
     on: boolean;
     bri: number;
@@ -94,4 +136,10 @@ export interface Group {
     alert: "none" | "select" | "lselect";
     colormode: string;
   };
+}
+
+export interface GroupUpdate {
+  name?: string;
+  lights?: string[];
+  class?: GroupClass;
 }
