@@ -28,7 +28,8 @@ export function createApp({ userName }: AppOptions) {
         renameGroup: mutations.renameGroup,
         setGroupLights: mutations.setGroupLights,
         setGroupClass: mutations.setGroupClass,
-        setGroupState: mutations.setGroupState
+        setGroupState: mutations.setGroupState,
+        createGroup: mutations.createGroup
       },
       LightAlert: {
         NONE: "none",
@@ -38,6 +39,14 @@ export function createApp({ userName }: AppOptions) {
       LightEffect: {
         NONE: "none",
         COLOR_LOOP: "colorloop"
+      },
+      GroupType: {
+        LUMINAIRE: "Luminaire",
+        LIGHTSOURCE: "Lightsource",
+        LIGHT_GROUP: "LightGroup",
+        ROOM: "Room",
+        ENTERTAINMENT: "Entertainment",
+        ZONE: "Zone"
       },
       GroupClass: {
         LIVING_ROOM: "Living room",

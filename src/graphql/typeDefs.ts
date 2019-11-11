@@ -12,6 +12,15 @@ export const typeDefs = gql`
     COLOR_LOOP
   }
 
+  enum GroupType {
+    LUMINAIRE
+    LIGHTSOURCE
+    LIGHT_GROUP
+    ROOM
+    ENTERTAINMENT
+    ZONE
+  }
+
   enum GroupClass {
     LIVING_ROOM
     KITCHEN
@@ -154,7 +163,7 @@ export const typeDefs = gql`
     name: String!
     lights: [Light!]!
     # TODO: sensors:
-    type: String!
+    type: GroupType!
     state: GroupState!
     recycle: Boolean!
     class: GroupClass!
@@ -186,12 +195,24 @@ export const typeDefs = gql`
     xy_inc: [Float!]
   }
 
+  input CreateGroup {
+    lights: [String!]!
+    name: String!
+    type: GroupType!
+    class: GroupClass
+  }
+
   type UpdateLightResponse {
     success: Boolean!
     light: Light!
   }
 
   type UpdateGroupResponse {
+    success: Boolean!
+    group: Group!
+  }
+
+  type CreateGroupResponse {
     success: Boolean!
     group: Group!
   }
@@ -211,5 +232,7 @@ export const typeDefs = gql`
     setGroupClass(id: String!, class: GroupClass!): UpdateGroupResponse!
 
     setGroupState(id: String, state: UpdateLightState!): UpdateGroupResponse!
+
+    createGroup(attributes: CreateGroup!): CreateGroupResponse!
   }
 `;

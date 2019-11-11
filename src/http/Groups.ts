@@ -1,11 +1,22 @@
 import { AxiosInstance } from "axios";
-import { Group, GroupUpdate, LightStateUpdate } from "../models";
+import { Group, GroupUpdate, LightStateUpdate, CreateGroup } from "../models";
 
 type ApiGroup = Omit<Group, "id">;
 
 interface AllGroupsResponse {
   [id: string]: ApiGroup;
 }
+
+interface CreateGroupResponse {
+  id: string;
+}
+
+type ApiCreateGroupResponse = Array<{
+  success?: { id: string };
+  error?: {
+    description: string;
+  };
+}>;
 
 export class GroupsHttp {
   public constructor(private http: AxiosInstance) {}
@@ -38,5 +49,21 @@ export class GroupsHttp {
     state: LightStateUpdate
   ): Promise<unknown> {
     return this.http.put(`/groups/${groupId}/action`, state);
+  }
+
+  public createGroup(attributes: CreateGroup): Promise<CreateGroupResponse> {
+    return this.http
+      .post<ApiCreateGroupResponse>("/groups", attributes)
+      .then(response => response.data[0])
+      .then(response => {
+        if (response.error) {
+          throw new Error(response.error.description);
+        }
+
+        return response.success!;
+      })
+      .then(response => ({
+        id: response.id
+      }));
   }
 }

@@ -113,12 +113,20 @@ export type GroupClass =
   | "Barbecue"
   | "Pool";
 
+export type GroupType =
+  | "Luminaire"
+  | "Lightsource"
+  | "LightGroup"
+  | "Room"
+  | "Entertainment"
+  | "Zone";
+
 export interface Group {
   id: string;
   name: string;
   lights: string[];
   sensors: string[];
-  type: string;
+  type: GroupType;
   state: {
     all_on: boolean;
     any_on: boolean;
@@ -141,5 +149,12 @@ export interface Group {
 export interface GroupUpdate {
   name?: string;
   lights?: string[];
+  class?: GroupClass;
+}
+
+export interface CreateGroup {
+  name: string;
+  lights: string[];
+  type: GroupType;
   class?: GroupClass;
 }
