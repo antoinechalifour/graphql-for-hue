@@ -128,10 +128,17 @@ export const typeDefs = gql`
     xy_inc: [Float!]
   }
 
+  type RenameLightResponse {
+    success: Boolean!
+    light: Light!
+  }
+
   type Mutation {
     updateLightState(
       id: String!
       state: UpdateLightState!
     ): UpdateLightStateResponse!
+
+    renameLight(id: String!, name: String!): RenameLightResponse!
   }
 `;

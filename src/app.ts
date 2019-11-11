@@ -20,7 +20,8 @@ export function createApp({ userName }: AppOptions) {
         light: queries.light
       },
       Mutation: {
-        updateLightState: mutations.updateLightState
+        updateLightState: mutations.updateLightState,
+        renameLight: mutations.renameLight
       },
       LightAlert: {
         NONE: "none",
