@@ -162,13 +162,106 @@ export const typeDefs = gql`
     id: String!
     name: String!
     lights: [Light!]!
-    # TODO: sensors:
     type: GroupType!
     state: GroupState!
     recycle: Boolean!
     class: GroupClass!
     action: LightState!
-    # TODO: more fields ??
+  }
+
+  type BridgeConfigSoftwareUpdateBridge {
+    state: String!
+    lastinstall: String!
+  }
+
+  type BridgeConfigSoftwareUpdateAutoInstall {
+    updatetime: String!
+    on: Boolean!
+  }
+
+  enum SoftwareUpdateState {
+    UNKNOWN
+    NO_UPDATES
+    TRANSFERRING
+    ANY_READY_TO_INSTALL
+    ALL_READY_TO_INSTALL
+    INSTALLING
+  }
+
+  type BridgeConfigSoftwareUpdate {
+    checkforupdate: Boolean!
+    lastchange: String!
+    bridge: BridgeConfigSoftwareUpdateBridge!
+    state: SoftwareUpdateState!
+    autoinstall: BridgeConfigSoftwareUpdateAutoInstall!
+  }
+
+  type BridgeConfigPortalState {
+    signedon: Boolean!
+    incoming: Boolean!
+    outgoing: Boolean!
+    communication: String!
+  }
+
+  enum InternetServiceStatus {
+    CONNECTED
+    DISCONNECTED
+  }
+
+  type BridgeConfigInternetServices {
+    internet: InternetServiceStatus!
+    remoteaccess: InternetServiceStatus!
+    time: InternetServiceStatus!
+    swupdate: InternetServiceStatus!
+  }
+
+  enum BackupState {
+    IDLE
+    START_MIGRATION
+    FILEREADY_DISABLED
+    PREPARE_RESTORE
+    RESTORING
+  }
+
+  type BridgeConfigBackup {
+    status: BackupState!
+    errorcode: Int!
+  }
+
+  type BridgeConfigUser {
+    username: String!
+    last_use_date: String!
+    create_date: String!
+    name: String!
+  }
+
+  type BridgeConfig {
+    name: String!
+    zigbeechannel: Int!
+    bridgeid: String!
+    mac: String!
+    dhcp: Boolean!
+    ipaddress: String!
+    netmask: String!
+    gateway: String!
+    UTC: String!
+    localtime: String!
+    timezone: String!
+    modelid: String!
+    datastoreversion: String!
+    swversion: String!
+    apiversion: String!
+    swupdate2: BridgeConfigSoftwareUpdate!
+    linkbutton: Boolean!
+    portalservices: Boolean!
+    portalconnection: InternetServiceStatus!
+    portalstate: BridgeConfigPortalState!
+    internetservices: BridgeConfigInternetServices!
+    factorynew: Boolean!
+    replacesbridgeid: String
+    backup: BridgeConfigBackup!
+    starterkitid: String!
+    whitelist: [BridgeConfigUser!]!
   }
 
   type Query {
@@ -176,6 +269,7 @@ export const typeDefs = gql`
     light(id: String!): Light!
     groups: [Group!]!
     group(id: String!): Group!
+    bridgeConfig: BridgeConfig!
   }
 
   input UpdateLightState {

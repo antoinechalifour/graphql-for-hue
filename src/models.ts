@@ -158,3 +158,73 @@ export interface CreateGroup {
   type: GroupType;
   class?: GroupClass;
 }
+
+export interface BridgeConfig {
+  name: string;
+  zigbeechannel: 11 | 15 | 20 | 25 | 0;
+  bridgeid: string;
+  mac: string;
+  dhcp: boolean;
+  ipaddress: string;
+  netmask: string;
+  gateway: string;
+  UTC: string;
+  localtime: "none" | string;
+  timezone: "none" | string;
+  modelid: string;
+  datastoreversion: string;
+  swversion: string;
+  apiversion: string;
+  swupdate2: {
+    checkforupdate: boolean;
+    lastchange: string;
+    bridge: {
+      state: string;
+      lastinstall: string;
+    };
+    state:
+      | "unknown"
+      | "noupdates"
+      | "transferring"
+      | "anyreadytoinstall"
+      | "allreadytoinstall"
+      | "installing";
+    autoinstall: {
+      updatetime: string;
+      on: boolean;
+    };
+  };
+  linkbutton: boolean;
+  portalservices: boolean;
+  portalconnection: string;
+  portalstate: {
+    signedon: boolean;
+    incoming: boolean;
+    outgoing: boolean;
+    communication: string;
+  };
+  internetservices: {
+    internet: "connected" | "disconnected";
+    remoteaccess: "connected" | "disconnected";
+    time: "connected" | "disconnected";
+    swupdate: "connected" | "disconnected";
+  };
+  factorynew: boolean;
+  replacesbridgeid: string;
+  backup: {
+    status:
+      | "idle"
+      | "startmigration"
+      | "fileready_disabled"
+      | "prepare_restore"
+      | "restoring";
+    errorcode: 0 | 1 | 2;
+  };
+  starterkitid: string;
+  whitelist: Array<{
+    username: string;
+    last_use_date: string;
+    create_date: string;
+    name: string;
+  }>;
+}

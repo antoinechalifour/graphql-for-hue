@@ -20,7 +20,8 @@ export function createApp({ userName }: AppOptions) {
         lights: queries.lights,
         light: queries.light,
         groups: queries.groups,
-        group: queries.group
+        group: queries.group,
+        bridgeConfig: queries.bridgeConfig
       },
       Mutation: {
         updateLightState: mutations.updateLightState,
@@ -89,6 +90,25 @@ export function createApp({ userName }: AppOptions) {
         PORCH: "Porch",
         BARBECUE: "Barbecue",
         POOL: "Pool"
+      },
+      InternetServiceStatus: {
+        CONNECTED: "connected",
+        DISCONNECTED: "disconnected"
+      },
+      BackupState: {
+        IDLE: "idle",
+        START_MIGRATION: "startmigration",
+        FILEREADY_DISABLED: "fileready_disabled",
+        PREPARE_RESTORE: "prepare_restore",
+        RESTORING: "restoring"
+      },
+      SoftwareUpdateState: {
+        UNKNOWN: "unknown",
+        NO_UPDATES: "noupdates",
+        TRANSFERRING: "transferring",
+        ANY_READY_TO_INSTALL: "anyreadytoinstall",
+        ALL_READY_TO_INSTALL: "allreadytoinstall",
+        INSTALLING: "installing"
       },
       Group: { ...entities.group }
     },

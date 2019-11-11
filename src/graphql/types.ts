@@ -1,10 +1,12 @@
 import { LightsHttp } from "../http/Lights";
 import { GroupsHttp } from "../http/Groups";
+import { BridgeConfigHttp } from "../http/BridgeConfig";
 
 export interface GraphqlContext {
   services: {
     lights: LightsHttp;
     groups: GroupsHttp;
+    bridgeConfig: BridgeConfigHttp;
   };
 }
 
