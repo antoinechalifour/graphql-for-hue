@@ -21,7 +21,8 @@ export function createApp({ userName }: AppOptions) {
         light: queries.light,
         groups: queries.groups,
         group: queries.group,
-        bridgeConfig: queries.bridgeConfig
+        bridgeConfig: queries.bridgeConfig,
+        sensors: queries.sensors
       },
       Mutation: {
         updateLightState: mutations.updateLightState,
@@ -32,12 +33,12 @@ export function createApp({ userName }: AppOptions) {
         setGroupState: mutations.setGroupState,
         createGroup: mutations.createGroup
       },
-      LightAlert: {
+      Alert: {
         NONE: "none",
         SELECT: "select",
         LONG_SELECT: "lselect"
       },
-      LightEffect: {
+      Effect: {
         NONE: "none",
         COLOR_LOOP: "colorloop"
       },
@@ -110,7 +111,8 @@ export function createApp({ userName }: AppOptions) {
         ALL_READY_TO_INSTALL: "allreadytoinstall",
         INSTALLING: "installing"
       },
-      Group: { ...entities.group }
+      Group: { ...entities.group },
+      Sensor: { ...entities.sensor }
     },
     context: () => createGraphqlContext({ userName })
   });

@@ -1,3 +1,7 @@
+type Effect = "none" | "colorloop";
+
+type Alert = "none" | "select" | "lselect";
+
 export interface Light {
   id: string;
   state: {
@@ -5,10 +9,10 @@ export interface Light {
     bri: number;
     hue: number;
     sat: number;
-    effect: "none" | "colorloop";
+    effect: Effect;
     xy: number[];
     ct: number;
-    alert: "none" | "select" | "lselect";
+    alert: Alert;
     colormode: string;
     mode: string;
     reachable: boolean;
@@ -61,8 +65,8 @@ export interface LightStateUpdate {
   sat?: number;
   xy?: number[];
   ct?: number;
-  alert?: "none" | "select" | "lselect";
-  effect?: "none" | "colorloop";
+  alert?: Alert;
+  effect?: Effect;
   transitiontime?: number;
   bri_inc?: number;
   sat_inc?: number;
@@ -138,10 +142,10 @@ export interface Group {
     bri: number;
     hue: number;
     sat: number;
-    effect: "none" | "colorloop";
+    effect: Effect;
     xy: number[];
     ct: number;
-    alert: "none" | "select" | "lselect";
+    alert: Alert;
     colormode: string;
   };
 }
@@ -158,6 +162,16 @@ export interface CreateGroup {
   type: GroupType;
   class?: GroupClass;
 }
+
+export type SoftwareUpdateState =
+  | "unknown"
+  | "noupdates"
+  | "transferring"
+  | "anyreadytoinstall"
+  | "allreadytoinstall"
+  | "installing";
+
+type NetworkStatus = "connected" | "disconnected";
 
 export interface BridgeConfig {
   name: string;
@@ -182,13 +196,7 @@ export interface BridgeConfig {
       state: string;
       lastinstall: string;
     };
-    state:
-      | "unknown"
-      | "noupdates"
-      | "transferring"
-      | "anyreadytoinstall"
-      | "allreadytoinstall"
-      | "installing";
+    state: SoftwareUpdateState;
     autoinstall: {
       updatetime: string;
       on: boolean;
@@ -204,10 +212,10 @@ export interface BridgeConfig {
     communication: string;
   };
   internetservices: {
-    internet: "connected" | "disconnected";
-    remoteaccess: "connected" | "disconnected";
-    time: "connected" | "disconnected";
-    swupdate: "connected" | "disconnected";
+    internet: NetworkStatus;
+    remoteaccess: NetworkStatus;
+    time: NetworkStatus;
+    swupdate: NetworkStatus;
   };
   factorynew: boolean;
   replacesbridgeid: string;
@@ -228,3 +236,168 @@ export interface BridgeConfig {
     name: string;
   }>;
 }
+
+export interface DaylightSensor {
+  id: string;
+  state: {
+    daylight: boolean;
+    lastupdated: string;
+  };
+  config: {
+    on: boolean;
+    configured: boolean;
+    sunriseoffset: number;
+    sunsetoffset: number;
+  };
+  name: string;
+  type: "Daylight";
+  modelid: string;
+  manufacturername: string;
+  swversion: string;
+}
+
+export interface SwitchSensor {
+  id: string;
+  state: {
+    buttonevent: number;
+    lastupdated: string;
+  };
+  swupdate: {
+    state: SoftwareUpdateState;
+    lastinstall: string;
+  };
+  config: {
+    on: boolean;
+    battery: number;
+    reachable: boolean;
+    pending: [];
+  };
+  name: string;
+  type: "ZLLSwitch";
+  modelid: string;
+  manufacturername: string;
+  productname: string;
+  diversityid: string;
+  swversion: string;
+  uniqueid: string;
+  capabilities: {
+    certified: boolean;
+    primary: boolean;
+    inputs: Array<{
+      repeatintervals: number[];
+      events: Array<{
+        buttonevent: number;
+        eventtype: string;
+      }>;
+    }>;
+  };
+}
+
+export interface TemperatureSensor {
+  id: string;
+  state: {
+    temperature: number;
+    lastupdated: string;
+  };
+  swupdate: {
+    state: SoftwareUpdateState;
+    lastinstall: string;
+  };
+  config: {
+    on: boolean;
+    battery: number;
+    reachable: boolean;
+    alert: Alert;
+    ledindication: boolean;
+    usertest: boolean;
+    pending: [];
+  };
+  name: string;
+  type: "ZLLTemperature";
+  modelid: string;
+  manufacturername: string;
+  productname: string;
+  swversion: string;
+  uniqueid: String;
+  capabilities: {
+    certified: boolean;
+    primary: boolean;
+  };
+}
+
+export interface PresenceSensor {
+  id: string;
+  state: {
+    presence: boolean;
+    lastupdated: string;
+  };
+  swupdate: {
+    state: SoftwareUpdateState;
+    lastinstall: string;
+  };
+  config: {
+    on: boolean;
+    battery: number;
+    reachable: boolean;
+    alert: Alert;
+    ledindication: boolean;
+    usertest: boolean;
+    sensitivity: number;
+    sensitivitymax: number;
+    pending: [];
+  };
+  name: string;
+  type: "ZLLPresence";
+  modelid: string;
+  manufacturername: string;
+  productname: string;
+  swversion: string;
+  uniqueid: string;
+  capabilities: {
+    certified: boolean;
+    primary: boolean;
+  };
+}
+
+export interface LightLevelSensor {
+  id: string;
+  state: {
+    lightlevel: number;
+    dark: boolean;
+    daylight: boolean;
+    lastupdated: string;
+  };
+  swupdate: {
+    state: SoftwareUpdateState;
+    lastinstall: string;
+  };
+  config: {
+    on: boolean;
+    battery: number;
+    reachable: boolean;
+    alert: Alert;
+    tholddark: number;
+    tholdoffset: number;
+    ledindication: boolean;
+    usertest: boolean;
+    pending: [];
+  };
+  name: string;
+  type: "ZLLLightLevel";
+  modelid: string;
+  manufacturername: string;
+  productname: string;
+  swversion: string;
+  uniqueid: string;
+  capabilities: {
+    certified: boolean;
+    primary: boolean;
+  };
+}
+
+export type Sensor =
+  | DaylightSensor
+  | SwitchSensor
+  | TemperatureSensor
+  | PresenceSensor
+  | LightLevelSensor;

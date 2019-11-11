@@ -1,73 +1,29 @@
 import { gql } from "apollo-server-koa";
 
 export const typeDefs = gql`
-  enum LightAlert {
+  #########################
+  ## MISC
+  #########################
+
+  enum Alert {
     NONE
     SELECT
     LONG_SELECT
   }
 
-  enum LightEffect {
+  enum Effect {
     NONE
     COLOR_LOOP
   }
 
-  enum GroupType {
-    LUMINAIRE
-    LIGHTSOURCE
-    LIGHT_GROUP
-    ROOM
-    ENTERTAINMENT
-    ZONE
-  }
-
-  enum GroupClass {
-    LIVING_ROOM
-    KITCHEN
-    DINING
-    BEDROOM
-    KIDS_BEDROOM
-    BATHROOM
-    NURSERY
-    RECREATION
-    OFFICE
-    GYM
-    HALLWAY
-    TOILET
-    FRONT_DOOR
-    GARAGE
-    TERRACE
-    GARDEN
-    DRIVEWAY
-    CARPORT
-    OTHER
-    HOME
-    DOWNSTAIRS
-    UPSTAIRS
-    TOP_FLOOR
-    ATTIC
-    GUEST_ROOM
-    STAIRCASE
-    LOUNGE
-    MAN_CAVE
-    COMPUTER
-    STUDIO
-    MUSIC
-    TV
-    READING
-    CLOSET
-    STORAGE
-    LAUNDRY_ROOM
-    BALCONY
-    PORCH
-    BARBECUE
-    POOL
-  }
+  #########################
+  ## LIGHTS
+  #########################
 
   type LightState {
     on: Boolean!
     bri: Int!
-    alert: LightAlert!
+    alert: Alert!
 
     "Null for Dimmable Lights"
     hue: Int
@@ -76,7 +32,7 @@ export const typeDefs = gql`
     sat: Int
 
     "Null for Dimmable Lights"
-    effect: LightEffect
+    effect: Effect
 
     xy: [Float!]
 
@@ -153,9 +109,65 @@ export const typeDefs = gql`
     productid: String
   }
 
+  #########################
+  ## GROUPS
+  #########################
+
   type GroupState {
     all_on: Boolean!
     any_on: Boolean!
+  }
+
+  enum GroupType {
+    LUMINAIRE
+    LIGHTSOURCE
+    LIGHT_GROUP
+    ROOM
+    ENTERTAINMENT
+    ZONE
+  }
+
+  enum GroupClass {
+    LIVING_ROOM
+    KITCHEN
+    DINING
+    BEDROOM
+    KIDS_BEDROOM
+    BATHROOM
+    NURSERY
+    RECREATION
+    OFFICE
+    GYM
+    HALLWAY
+    TOILET
+    FRONT_DOOR
+    GARAGE
+    TERRACE
+    GARDEN
+    DRIVEWAY
+    CARPORT
+    OTHER
+    HOME
+    DOWNSTAIRS
+    UPSTAIRS
+    TOP_FLOOR
+    ATTIC
+    GUEST_ROOM
+    STAIRCASE
+    LOUNGE
+    MAN_CAVE
+    COMPUTER
+    STUDIO
+    MUSIC
+    TV
+    READING
+    CLOSET
+    STORAGE
+    LAUNDRY_ROOM
+    BALCONY
+    PORCH
+    BARBECUE
+    POOL
   }
 
   type Group {
@@ -168,6 +180,10 @@ export const typeDefs = gql`
     class: GroupClass!
     action: LightState!
   }
+
+  #########################
+  ## BRIDGE CONFIG
+  #########################
 
   type BridgeConfigSoftwareUpdateBridge {
     state: String!
@@ -264,13 +280,201 @@ export const typeDefs = gql`
     whitelist: [BridgeConfigUser!]!
   }
 
+  #########################
+  ## SENSORS
+  #########################
+  type DaylightSensorState {
+    daylight: Boolean!
+    lastupdated: String!
+  }
+
+  type DaylightSensorConfig {
+    on: Boolean!
+    configured: Boolean!
+    sunriseoffset: Int!
+    sunsetoffset: Int!
+  }
+
+  type DaylightSensor {
+    state: DaylightSensorState!
+    config: DaylightSensorConfig!
+    name: String!
+    type: String!
+    modelid: String!
+    manufacturername: String!
+    swversion: String!
+  }
+
+  type SwitchSensorState {
+    buttonevent: Int!
+    lastupdated: String!
+  }
+
+  type SwitchSensorConfig {
+    on: Boolean!
+    battery: Int!
+    reachable: Boolean!
+  }
+
+  type SwitchSensorInputEvent {
+    buttonevent: Int!
+    eventtype: String!
+  }
+
+  type SwitchSensorInput {
+    repeatintervals: [Int!]!
+    events: [SwitchSensorInputEvent!]!
+  }
+
+  type SwitchSensorCapabilities {
+    certified: Boolean!
+    primary: Boolean!
+    inputs: [SwitchSensorInput!]!
+  }
+
+  type SwitchSensor {
+    state: SwitchSensorState!
+    swupdate: SoftwareUpdate!
+    config: SwitchSensorConfig!
+    name: String!
+    type: String!
+    modelid: String!
+    manufacturername: String!
+    productname: String!
+    diversityid: String!
+    swversion: String!
+    uniqueid: String!
+    capabilities: SwitchSensorCapabilities!
+  }
+
+  type TemperatureSensorState {
+    temperature: Int!
+    lastupdated: String!
+  }
+
+  type TemperatureSensorConfig {
+    on: Boolean!
+    battery: Int!
+    reachable: Boolean!
+    alert: Alert!
+    ledindication: Boolean!
+    usertest: Boolean!
+  }
+
+  type TemperatureSensorCapabilities {
+    certified: Boolean!
+    primary: Boolean!
+  }
+
+  type TemperatureSensor {
+    state: TemperatureSensorState!
+    swupdate: SoftwareUpdate!
+    config: TemperatureSensorConfig!
+    name: String!
+    type: String!
+    modelid: String!
+    manufacturername: String!
+    productname: String!
+    swversion: String!
+    uniqueid: String!
+    capabilities: TemperatureSensorCapabilities!
+  }
+
+  type PresenceSensorState {
+    presence: Boolean!
+    lastupdated: String!
+  }
+
+  type PresenceSensorConfig {
+    on: Boolean!
+    battery: Int!
+    reachable: Boolean!
+    alert: Alert!
+    ledindication: Boolean!
+    usertest: Boolean!
+    sensitivity: Int!
+    sensitivitymax: Int!
+  }
+
+  type PresenceSensorCapabilities {
+    certified: Boolean!
+    primary: Boolean!
+  }
+
+  type PresenceSensor {
+    state: PresenceSensorState!
+    swupdate: SoftwareUpdate!
+    config: PresenceSensorConfig!
+    name: String!
+    type: String!
+    modelid: String!
+    manufacturername: String!
+    productname: String!
+    swversion: String!
+    uniqueid: String!
+    capabilities: PresenceSensorCapabilities!
+  }
+
+  type LightLevelSensorState {
+    lightlevel: Int!
+    dark: Boolean!
+    daylight: Boolean!
+    lastupdated: String!
+  }
+
+  type LightLevelSensorConfig {
+    on: Boolean!
+    battery: Int!
+    reachable: Boolean!
+    alert: Alert!
+    tholddark: Int!
+    tholdoffset: Int!
+    ledindication: Boolean!
+    usertest: Boolean!
+  }
+
+  type LightLevelSensorCapabilities {
+    certified: Boolean!
+    primary: Boolean!
+  }
+
+  type LightLevelSensor {
+    state: LightLevelSensorState!
+    swupdate: SoftwareUpdate!
+    config: LightLevelSensorConfig!
+    name: String!
+    type: String!
+    modelid: String!
+    manufacturername: String!
+    productname: String!
+    swversion: String!
+    uniqueid: String!
+    capabilities: LightLevelSensorCapabilities!
+  }
+
+  union Sensor =
+      DaylightSensor
+    | SwitchSensor
+    | TemperatureSensor
+    | PresenceSensor
+    | LightLevelSensor
+
+  #########################
+  ## QUERY
+  #########################
+
   type Query {
     lights: [Light!]!
     light(id: String!): Light!
     groups: [Group!]!
     group(id: String!): Group!
     bridgeConfig: BridgeConfig!
+    sensors: [Sensor!]!
   }
+
+  #########################
+  ## MUTATIONS
+  #########################
 
   input UpdateLightState {
     on: Boolean
@@ -279,8 +483,8 @@ export const typeDefs = gql`
     sat: Int
     xy: [Float!]
     ct: Int
-    alert: LightAlert
-    effect: LightEffect
+    alert: Alert
+    effect: Effect
     transitiontime: Int
     bri_inc: Int
     sat_inc: Int

@@ -1,12 +1,14 @@
+import { BridgeConfigHttp } from "../http/BridgeConfig";
 import { LightsHttp } from "../http/Lights";
 import { GroupsHttp } from "../http/Groups";
-import { BridgeConfigHttp } from "../http/BridgeConfig";
+import { SensorsHttp } from "../http/Sensors";
 
 export interface GraphqlContext {
   services: {
+    bridgeConfig: BridgeConfigHttp;
     lights: LightsHttp;
     groups: GroupsHttp;
-    bridgeConfig: BridgeConfigHttp;
+    sensors: SensorsHttp;
   };
 }
 
