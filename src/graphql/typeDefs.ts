@@ -163,5 +163,7 @@ export const typeDefs = gql`
     renameLight(id: String!, name: String!): UpdateLightResponse!
 
     renameGroup(id: String!, name: String!): UpdateGroupResponse!
+
+    setGroupLights(id: String!, lightIds: [String!]!): UpdateGroupResponse!
   }
 `;
