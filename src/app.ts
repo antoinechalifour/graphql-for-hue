@@ -3,6 +3,7 @@ import { ApolloServer, gql } from "apollo-server-koa";
 import { LightsHttp } from "./http/Lights";
 import { getAuthenticatedHttpClient } from "./http/client";
 import { HUE_BRIDGE_ADDRESS } from "./config";
+import { LightStateUpdate } from "./models";
 
 export interface AppOptions {
   userName: string;
@@ -111,15 +112,53 @@ const typeDefs = gql`
     config: LightConfig!
     uniqueid: String!
     swversion: String!
-    swconfigid: String!
-    productid: String!
+    swconfigid: String
+    productid: String
   }
 
   type Query {
     lights: [Light!]!
     light(id: String!): Light!
   }
+
+  type UpdateLightStateResponse {
+    success: Boolean!
+    light: Light!
+  }
+
+  input UpdateLightState {
+    on: Boolean
+    bri: Int
+    hue: Int
+    sat: Int
+    xy: [Float!]
+    ct: Int
+    alert: LightAlert
+    effect: LightEffect
+    transitiontime: Int
+    bri_inc: Int
+    sat_inc: Int
+    hue_inc: Int
+    ct_inc: Int
+    xy_inc: [Float!]
+  }
+
+  type Mutation {
+    updateLightState(
+      id: String!
+      state: UpdateLightState!
+    ): UpdateLightStateResponse!
+  }
 `;
+
+interface LightQueryArgs {
+  id: string;
+}
+
+interface UpdateLightStateMutationArgs {
+  id: string;
+  state: LightStateUpdate;
+}
 
 export function createApp({ userName }: AppOptions) {
   const app = new Koa();
@@ -132,10 +171,25 @@ export function createApp({ userName }: AppOptions) {
         },
         light: (
           _obj: undefined,
-          { id }: { id: string },
+          { id }: LightQueryArgs,
           { services }: GraphqlContext
         ) => {
           return services.lights.fetchLight(id);
+        }
+      },
+      Mutation: {
+        updateLightState: async (
+          _obj: any,
+          { id, state }: UpdateLightStateMutationArgs,
+          { services }: GraphqlContext
+        ) => {
+          await services.lights.updateLightState(id, state);
+          const light = await services.lights.fetchLight(id);
+
+          return {
+            success: true,
+            light
+          };
         }
       },
       LightAlert: {
