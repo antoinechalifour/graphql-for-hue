@@ -101,9 +101,29 @@ export const typeDefs = gql`
     productid: String
   }
 
+  type GroupState {
+    all_on: Boolean!
+    any_on: Boolean!
+  }
+
+  type Group {
+    id: String!
+    name: String!
+    lights: [Light!]!
+    # TODO: sensors:
+    type: String!
+    state: GroupState!
+    recycle: Boolean!
+    class: String!
+    # TODO: rename this type
+    action: LightState!
+    # TODO: more fields ??
+  }
+
   type Query {
     lights: [Light!]!
     light(id: String!): Light!
+    groups: [Group!]!
   }
 
   type UpdateLightStateResponse {

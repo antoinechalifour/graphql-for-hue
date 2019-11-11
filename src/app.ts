@@ -4,6 +4,7 @@ import { ApolloServer } from "apollo-server-koa";
 import { createGraphqlContext } from "./graphql/context";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
+import * as entities from "./graphql/entities";
 import { typeDefs } from "./graphql/typeDefs";
 
 export interface AppOptions {
@@ -17,7 +18,8 @@ export function createApp({ userName }: AppOptions) {
     resolvers: {
       Query: {
         lights: queries.lights,
-        light: queries.light
+        light: queries.light,
+        groups: queries.groups
       },
       Mutation: {
         updateLightState: mutations.updateLightState,
@@ -31,7 +33,8 @@ export function createApp({ userName }: AppOptions) {
       LightEffect: {
         NONE: "none",
         COLOR_LOOP: "colorloop"
-      }
+      },
+      Group: { ...entities.group }
     },
     context: () => createGraphqlContext({ userName })
   });

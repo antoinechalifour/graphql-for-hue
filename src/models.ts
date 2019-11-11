@@ -70,3 +70,28 @@ export interface LightStateUpdate {
   ct_inc?: number;
   xy_inc?: number[];
 }
+
+export interface Group {
+  id: string;
+  name: string;
+  lights: string[];
+  sensors: string[];
+  type: string;
+  state: {
+    all_on: boolean;
+    any_on: boolean;
+  };
+  recycle: boolean;
+  class: string;
+  action: {
+    on: boolean;
+    bri: number;
+    hue: number;
+    sat: number;
+    effect: "none" | "colorloop";
+    xy: number[];
+    ct: number;
+    alert: "none" | "select" | "lselect";
+    colormode: string;
+  };
+}
