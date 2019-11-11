@@ -19,7 +19,8 @@ export function createApp({ userName }: AppOptions) {
       Query: {
         lights: queries.lights,
         light: queries.light,
-        groups: queries.groups
+        groups: queries.groups,
+        group: queries.group
       },
       Mutation: {
         updateLightState: mutations.updateLightState,

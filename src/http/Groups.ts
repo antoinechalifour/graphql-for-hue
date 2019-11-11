@@ -21,4 +21,11 @@ export class GroupsHttp {
         }))
       );
   }
+
+  public fetchGroup(groupId: string): Promise<Group> {
+    return this.http
+      .get<ApiGroup>(`/groups/${groupId}`)
+      .then(response => response.data)
+      .then(group => Object.assign(group, { id: groupId }));
+  }
 }

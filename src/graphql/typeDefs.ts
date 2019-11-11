@@ -124,6 +124,7 @@ export const typeDefs = gql`
     lights: [Light!]!
     light(id: String!): Light!
     groups: [Group!]!
+    group(id: String!): Group!
   }
 
   type UpdateLightStateResponse {
