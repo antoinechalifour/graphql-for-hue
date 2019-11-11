@@ -209,5 +209,7 @@ export const typeDefs = gql`
     setGroupLights(id: String!, lightIds: [String!]!): UpdateGroupResponse!
 
     setGroupClass(id: String!, class: GroupClass!): UpdateGroupResponse!
+
+    setGroupState(id: String, state: UpdateLightState!): UpdateGroupResponse!
   }
 `;

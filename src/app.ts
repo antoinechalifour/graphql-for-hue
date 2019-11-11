@@ -27,7 +27,8 @@ export function createApp({ userName }: AppOptions) {
         renameLight: mutations.renameLight,
         renameGroup: mutations.renameGroup,
         setGroupLights: mutations.setGroupLights,
-        setGroupClass: mutations.setGroupClass
+        setGroupClass: mutations.setGroupClass,
+        setGroupState: mutations.setGroupState
       },
       LightAlert: {
         NONE: "none",

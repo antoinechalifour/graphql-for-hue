@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { Group, GroupUpdate } from "../models";
+import { Group, GroupUpdate, LightStateUpdate } from "../models";
 
 type ApiGroup = Omit<Group, "id">;
 
@@ -31,5 +31,12 @@ export class GroupsHttp {
 
   public updateGroup(groupId: string, updates: GroupUpdate): Promise<unknown> {
     return this.http.put(`/groups/${groupId}`, updates);
+  }
+
+  public setGroupState(
+    groupId: string,
+    state: LightStateUpdate
+  ): Promise<unknown> {
+    return this.http.put(`/groups/${groupId}/action`, state);
   }
 }
